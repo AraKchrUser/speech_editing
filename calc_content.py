@@ -77,21 +77,19 @@ def calc_hubert_content(model: HubertModel,
                         audio: Union[torch.Tensor, str, Path], 
                         device: str, sr: int, processor: Optional[Any]) -> torch.Tensor:
     HUBERT_SR = 16_000
-    if 0 == 1:
-        pass
     # if isinstance(audio, str) or isinstance(audio, Path):
     #     contents = model(audio, model, processor, device)
-    else:
-        if isinstance(audio, str):
-            audio, sr = librosa.load(audio, sr=sr, mono=True)
-            audio     = torch.from_numpy(audio).float().to(device)
-        if sr != HUBERT_SR:
-            audio = Resample(sr, HUBERT_SR).to(audio.device)(audio).to(device)
-        if audio.ndim == 1: audio = audio.unsqueeze(0)
-        with torch.no_grad():
-            contents = model(audio, output_hidden_states=True)["hidden_states"][9]
-            contents = model.final_proj(contents)
-            # contents = contents.last_hidden_state #TODO checking:.transpose(1, 2) #["last_hidden_state"].transpose(1, 2) #
+    # else:
+    if isinstance(audio, str):
+        audio, sr = librosa.load(audio, sr=sr, mono=True)
+        audio     = torch.from_numpy(audio).float().to(device)
+    if sr != HUBERT_SR:
+        audio = Resample(sr, HUBERT_SR).to(audio.device)(audio).to(device)
+    if audio.ndim == 1: audio = audio.unsqueeze(0)
+    with torch.no_grad():
+        contents = model(audio, output_hidden_states=True)["hidden_states"][9]
+        contents = model.final_proj(contents)
+        # contents = contents.last_hidden_state #TODO checking:.transpose(1, 2) #["last_hidden_state"].transpose(1, 2) #
     return contents.transpose(1, 2)
 
 

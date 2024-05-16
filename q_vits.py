@@ -1,5 +1,5 @@
 # Для начала:
-# _process_one из project-tts/SE-pr_v2/so_vits/preprocessing/preprocess_hubert_f0.py (квантизация hubert-векторов)
+# изменил _process_one из /so_vits/preprocessing/preprocess_hubert_f0.py (квантизация hubert-векторов)
 # 
 import argparse
 from pathlib import Path

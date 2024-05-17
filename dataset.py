@@ -185,7 +185,7 @@ class Text2SemanticCode(Dataset):
             contents = contents["content"].squeeze(0).numpy()
             contents = contents.astype(np.float32)
             labels = []
-            for semantic in contents: #<!TODO>:  Вынести это в отдельную операцию (до обучения) - должно ускорить обучения 
+            for semantic in contents: #<!TODO>:  Вынести это в отдельную операцию (до обучения) - должно ускорить обучения (блок  else:)
                 semantic = semantic.reshape(1, -1) # ((256,) -> (1, 256))
                 pred_semantic = self.semantic_codes_clusters.predict_cluster_center(semantic)
                 labels.append(pred_semantic[0])
